@@ -12,24 +12,15 @@ jobs:
       - name: Checkout traffic branch
         uses: actions/checkout@v4
         with:
-          ref: traffic # 切换到你的数据存储分支
-          - name: Checkout traffic branch
-          uses: actions/checkout@v4
-          with:
           ref: traffic
           token: ${{ secrets.TRAFFIC_TOKEN }}
 
       - name: Fetch Traffic Data
         run: |
-          # 创建文件夹
           mkdir -p data
-          
-          # 使用 GitHub API 获取 Views 数据并保存为 JSON
           curl -H "Authorization: token ${{ secrets.TRAFFIC_TOKEN }}" \
                https://api.github.com/repos/${{ github.repository }}/traffic/views \
                > data/views-$(date +%Y-%m-%d).json
-          
-          # 使用 GitHub API 获取 Clones 数据
           curl -H "Authorization: token ${{ secrets.TRAFFIC_TOKEN }}" \
                https://api.github.com/repos/${{ github.repository }}/traffic/clones \
                > data/clones-$(date +%Y-%m-%d).json
