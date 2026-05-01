@@ -3,18 +3,21 @@ name: GitHub Traffic Archive
 on:
   schedule:
     - cron: '0 0 * * *' # 每天北京时间上午 8 点运行
-  workflow_dispatch:      # 必须有这一行，才能在网页上手动点运行
+  workflow_dispatch:      # 允许手动运行
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout traffic data
+      - name: Checkout
         uses: actions/checkout@v4
-        with:
-          ref: traffic # 这里指定把数据存到 traffic 分支
 
-      - name: GitHub Traffic Statistics
-        uses: sangonzalez/repository-traffic-history@v0.2.0
+      - name: Archive Traffic
+        # 使用目前最稳定的流量归档工具
+        uses: mscoutermarsh/traffic-read-action@v1.1.0
         with:
+          # 注意：这里确保你已经配置了名为 TRAFFIC_TOKEN 的 Secret
           token: ${{ secrets.TRAFFIC_TOKEN }}
+
+      # 如果你希望将数据保存并提交到仓库（实现长期记录）
+      # 可以配合简单的 shell 脚本或专门的存储 action
