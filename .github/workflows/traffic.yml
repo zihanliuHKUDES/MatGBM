@@ -1,0 +1,20 @@
+name: GitHub Traffic Archive
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # 每天北京时间上午 8 点运行
+  workflow_dispatch:      # 必须有这一行，才能在网页上手动点运行
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout traffic data
+        uses: actions/checkout@v4
+        with:
+          ref: traffic # 这里指定把数据存到 traffic 分支
+
+      - name: GitHub Traffic Statistics
+        uses: sangonzalez/repository-traffic-history@v0.2.0
+        with:
+          token: ${{ secrets.TRAFFIC_TOKEN }}
