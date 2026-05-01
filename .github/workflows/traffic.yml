@@ -13,6 +13,11 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: traffic # 切换到你的数据存储分支
+          - name: Checkout traffic branch
+          uses: actions/checkout@v4
+          with:
+          ref: traffic
+          token: ${{ secrets.TRAFFIC_TOKEN }}
 
       - name: Fetch Traffic Data
         run: |
